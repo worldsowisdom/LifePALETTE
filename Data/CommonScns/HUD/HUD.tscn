@@ -1,0 +1,179 @@
+[gd_scene load_steps=13 format=1]
+
+[ext_resource path="res://Data/Textures/HUD/NewBtn.png" type="Texture" id=1]
+[ext_resource path="res://Data/Font/Rujishanwriting35.fnt" type="BitmapFont" id=2]
+[ext_resource path="res://Data/Textures/HUD/RemoveBtn.png" type="Texture" id=3]
+[ext_resource path="res://Data/Textures/HUD/EditBtn.png" type="Texture" id=4]
+[ext_resource path="res://Data/Textures/HUD/InspectBtn.png" type="Texture" id=5]
+
+[sub_resource type="GDScript" id=1]
+
+resource/name = "HUD"
+script/source = "\nvar data\n\n\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\t\n\t\n\tupdate()\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\t#Check ObjectPanel condition\n\tif data.controlMode == data.CONTROLMODE.new:\n\t\tget_node(\"ObjectPanel\").show()\n\telse:\n\t\tget_node(\"ObjectPanel\").hide()\n\t\n\t\n\tpass\n\nfunc update():\n\tupdateObjectPanel()\n\tpass\n\nfunc updateObjectPanel():\n\t\n\tget_node(\"ObjectPanel\").update()\n\t\n\tpass"
+
+[sub_resource type="GDScript" id=2]
+
+resource/name = "NewBtn"
+script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/NewBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/NewBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.new:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\nfunc _on_NewBtn_pressed():\n\t\n\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.new\n\t\n\tpass # replace with function body\n\n"
+
+[sub_resource type="GDScript" id=3]
+
+script/source = "var data\n\nvar tmp = \"\"\n\nfunc _ready():\n\tdata = get_node(\"/root/Data\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\t\n\tif data.controlMode == data.CONTROLMODE.new:\n\t\ttmp = \"Create new\"\n\t\n\tif data.controlMode == data.CONTROLMODE.remove:\n\t\ttmp = \"Remove\"\n\t\n\tif data.controlMode == data.CONTROLMODE.edit:\n\t\ttmp = \"Edit\"\n\t\n\tif data.controlMode == data.CONTROLMODE.inspect:\n\t\ttmp = \"Inspect\"\n\t\n\tset_text(tmp)\n\tpass"
+
+[sub_resource type="GDScript" id=4]
+
+resource/name = "RemoveBtn"
+script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/RemoveBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/RemoveBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.remove:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\n\n\nfunc _on_RemoveBtn_pressed():\n\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.remove\n\t\n\tpass # replace with function body\n"
+
+[sub_resource type="GDScript" id=5]
+
+resource/name = "EditBtn"
+script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/EditBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/EditBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.edit:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\n\n\nfunc _on_EditBtn_pressed():\n\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.edit\n\tpass # replace with function body\n"
+
+[sub_resource type="GDScript" id=6]
+
+resource/name = "InspectBtn"
+script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/InspectBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/InspectBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.inspect:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\n\nfunc _on_InspectBtn_pressed():\n\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.inspect\n\tpass # replace with function body\n"
+
+[sub_resource type="GDScript" id=7]
+
+resource/name = "ObjectPanel"
+script/source = "\nvar data\n\nvar objBtn\n\nvar tmp\n\nfunc _ready():\n\tobjBtn = load(\"res://Data/CommonScns/HUD/ObjectBtn.tscn\")\n\tdata = get_node(\"/root/Data\")\n\t\n\tpass\n\nfunc update():\n\t\n\tfor i in data.objectsList:\n\t\tvar newObjBtn = objBtn.instance()\n\t\tget_node(\"VBoxContainer\").add_child(newObjBtn)\n\t\tnewObjBtn.loadObject(data.objectPath + i)\n\t\tnewObjBtn.btn.set_text(i)\n\t\t\n\t\tpass\n\t\n\t\n\tpass\n\n\n"
+
+[node name="HUD" type="Camera2D"]
+
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+script/script = SubResource( 1 )
+
+[node name="NewBtn" type="TextureButton" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 10.0
+margin/top = 172.0
+margin/right = 110.0
+margin/bottom = 272.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 1 )
+script/script = SubResource( 2 )
+
+[node name="GameModeLb" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -103.0
+margin/top = -279.0
+margin/right = 103.0
+margin/bottom = -252.0
+custom_fonts/font = ExtResource( 2 )
+text = "Game mode here!"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script/script = SubResource( 3 )
+
+[node name="RemoveBtn" type="TextureButton" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -271.0
+margin/top = 172.0
+margin/right = -171.0
+margin/bottom = 272.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 3 )
+script/script = SubResource( 4 )
+
+[node name="EditBtn" type="TextureButton" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -138.0
+margin/top = 173.0
+margin/right = -38.0
+margin/bottom = 273.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 4 )
+script/script = SubResource( 5 )
+
+[node name="InspectBtn" type="TextureButton" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 166.0
+margin/top = 166.0
+margin/right = 266.0
+margin/bottom = 266.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 5 )
+script/script = SubResource( 6 )
+
+[node name="ObjectPanel" type="ScrollContainer" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -505.0
+margin/top = -292.0
+margin/right = -265.0
+margin/bottom = 108.0
+scroll/horizontal = true
+scroll/vertical = true
+script/script = SubResource( 7 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ObjectPanel"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+custom_constants/separation = 50
+alignment = 0
+
+[connection signal="pressed" from="NewBtn" to="NewBtn" method="_on_NewBtn_pressed"]
+
+[connection signal="pressed" from="RemoveBtn" to="RemoveBtn" method="_on_RemoveBtn_pressed"]
+
+[connection signal="pressed" from="EditBtn" to="EditBtn" method="_on_EditBtn_pressed"]
+
+[connection signal="pressed" from="InspectBtn" to="InspectBtn" method="_on_InspectBtn_pressed"]
+
+

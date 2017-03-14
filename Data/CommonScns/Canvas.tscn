@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://Data/Textures/BG/BG.png" type="Texture" id=1]
+[ext_resource path="res://Data/CommonScns/HUD/HUD.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+
+resource/name = "Canvas"
+script/source = "\nvar data\n\nvar HUD\n\nvar tmp\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\tHUD = get_node(\"HUD\")\n\t\n\tset_process_unhandled_input(true)\n\tpass\n\n\n# Listen to input\nfunc _unhandled_input( ev ):\n\t#If input is not mouse click -> return\n\tif (ev.type!=InputEvent.MOUSE_BUTTON):\n\t\treturn\n\t#If the controll mode is not create new mode -> return\n\tif data.controlMode !=data.CONTROLMODE.new:\n\t\treturn\n\t#If no object selected yet -> return\n\tif data.selectedObject == null:\n\t\treturn\n\t\n\tvar newObj = data.selectedObject.instance()\n\t\n\tadd_child(newObj)\n\t\n\tnewObj.set_pos(ev.global_pos + HUD.get_global_pos() - (get_viewport().get_rect().size/2))\n\tprint(\"Mouse Click/Unclick at: \",ev.pos)\n\t\n\tpass"
+
+[node name="Canvas" type="Sprite"]
+
+transform/pos = Vector2( -1, -1 )
+texture = ExtResource( 1 )
+script/script = SubResource( 1 )
+
+[node name="HUD" parent="." instance=ExtResource( 2 )]
+
+
