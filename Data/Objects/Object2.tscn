@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://Data/Textures/Objects/Obj2.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+
+resource/name = "Object"
+script/source = "var name\nvar shape\nvar color\nvar AItype\n\nfunc _ready():\n\t\n\tpass\n\nfunc update():\n\t\n\tpass"
+
+[node name="Object" type="Node2D"]
+
+script/script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+
+texture = ExtResource( 1 )
+
+

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://Data/Textures/Objects/EG.png" type="Texture" id=1]
+
+[node name="Sprite" type="Sprite"]
+
+transform/pos = Vector2( -384.053, -150.659 )
+transform/scale = Vector2( 21, 149.659 )
+
+[node name="EG" type="Sprite" parent="."]
+
+transform/pos = Vector2( 155, 193 )
+texture = ExtResource( 1 )
+
+
