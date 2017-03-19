@@ -13,4 +13,4 @@ https://godotengine.org/
 CONTACT:
 
 life@worldsowisdom.com
-life.worldsowisdom.com/palette
+http://life.worldsowisdom.com/palette/
