@@ -10,7 +10,7 @@ radius = 10.0
 [sub_resource type="GDScript" id=1]
 
 resource/name = "Object"
-script/source = "var name\nvar shape\nvar color\nvar AItype\n\nvar moveSpeed = 3\n\nvar moveVector = Vector2(0,0)\n\nvar targetList = []\n\nvar objCode = 0\n\nvar data\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\t\n\tAItype = load(data.AITYPE.circle).new()\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process():\n\t\n\tpass\n\nfunc update():\n\t\n\tAItype.updateBehavior(self)\n\t\n\tpass\n\n\nfunc _on_Area2D_body_enter( body ):\n\t\n\tif body == self:\n\t\treturn\n\t\n\tif \"objCode\" in body:\n\t\t\n\t\tprint(\"FOUND IT\")\n\t\n\tpass # replace with function body\n"
+script/source = "var name\nvar shape\nvar color\nvar AItype\n\nvar targetList = []\n\nvar objCode = 0\n\nfunc _ready():\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process():\n\t\n\tpass\n\nfunc update():\n\t\n\tpass\n\nfunc _on_Area2D_body_enter( body ):\n\t\n\tif body == self:\n\t\treturn\n\t\n\tif \"AItype\" in body:\n\t\t\n\t\tprint(\"FOUND IT\")\n\t\n\tpass # replace with function body\n"
 
 [sub_resource type="CircleShape2D" id=2]
 
