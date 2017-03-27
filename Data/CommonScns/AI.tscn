@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=1]
+
+[sub_resource type="GDScript" id=1]
+
+resource/name = "AI"
+script/source = "var data\nvar body\n\n\n\nvar AIScript\nvar defaultAIScript = \"res://Data/AI/DefaultAIScript.gd\"\n\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\t#Get the body node\n\tbody = get_node(\"..\")\n\t\n\t#Init AI system for the body\n\tsetAI(body)\n\t\n\tset_fixed_process(true)\n\tset_process_unhandled_input(true)\n\tpass\n\nfunc _fixed_process(delta):\n\t\n\tAIScript.update(body)\n\t\n\tpass\n\nfunc setAI(bd):\n\t\n\tif \"AIScript\" in body:\n\t\t#IF body carry AI script info, use that info\n\t\tAIScript = load(body.AIScript).new()\n\telse:\n\t\t#If not, use the default AI script\n\t\tAIScript = load(defaultAIScript).new()\n\t\t\n\t\tpass \n\t\n\tif AIScript == null:# if AI script is null, use default AI script\n\t\tAIScript = load(defaultAIScript).new()\n\t\tpass\n\t\n\tpass\n\nfunc _unhandled_input( ev ):\n\t#If input is not mouse click -> return\n\tif (ev.type!=InputEvent.MOUSE_BUTTON ):\n\t\treturn\n\t#Make sure event only occur at click point once\n\tif !(ev.button_index == BUTTON_LEFT and ev.pressed):\n\t\treturn\n\t#If it not play mode, do nothing\n\tif data.controlMode != data.CONTROLMODE.idle:\n\t\t\n\t\treturn\n\t\n\t#Calculate real ev position\n\tev = ev.global_pos + data.activeCamera.get_global_pos() - (get_viewport().get_rect().size/2)\n\t\n\tAIScript.unhandled_input(ev)\n\t\n\tpass\n\nfunc update():\n\t\n\tpass"
+
+[node name="Node2D" type="Node2D"]
+
+script/script = SubResource( 1 )
+
+

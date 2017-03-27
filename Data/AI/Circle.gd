@@ -1,4 +1,5 @@
 
+var body
 
 func _ready():
 	
@@ -6,4 +7,5 @@ func _ready():
 
 func update():
 	
+	set_fixed_process()
 	pass
