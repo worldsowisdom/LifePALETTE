@@ -6,12 +6,14 @@
 [sub_resource type="GDScript" id=1]
 
 resource/name = "Canvas"
-script/source = "\nvar data\n\nvar HUD\n\nvar tmp\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\tHUD = get_node(\"HUD\")\n\t\n\tset_process_unhandled_input(true)\n\tpass\n\n\n# Listen to input\nfunc _unhandled_input( ev ):\n\t#If input is not mouse click -> return\n\tif (ev.type!=InputEvent.MOUSE_BUTTON ):\n\t\treturn\n\t#Make sure event only occur at click point once\n\tif !(ev.button_index == BUTTON_LEFT and ev.pressed):\n\t\treturn\n\t\n\t#If the controll mode is not create new mode -> return\n\tif data.controlMode !=data.CONTROLMODE.new:\n\t\treturn\n\t#If no object selected yet -> return\n\tif data.selectedObject == null:\n\t\treturn\n\t\n\tvar newObj = data.selectedObject.instance()\n\t\n\tadd_child(newObj)\n\t\n\tnewObj.set_pos(ev.global_pos + HUD.get_global_pos() - (get_viewport().get_rect().size/2))\n\t#Add button to select object\n\tvar selectionBtn = load(\"res://Data/CommonScns/HUD/ObjectSelectionBtn.tscn\").instance()\n\tnewObj.add_child(selectionBtn)\n\t\n\tprint(\"Mouse Click/Unclick at: \",ev.pos)\n\t\n\tpass"
+script/source = "\nvar data\n\nvar HUD\n\nvar des\nvar tmp\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\tHUD = get_node(\"HUD\")\n\t\n\tset_process_unhandled_input(true)\n\tpass\n\n\n# Listen to input\nfunc _unhandled_input( ev ):\n\t#If input is not mouse click -> return\n\tif (ev.type!=InputEvent.MOUSE_BUTTON ):\n\t\treturn\n\t#Make sure event only occur at click point once\n\tif !(ev.button_index == BUTTON_LEFT and ev.pressed):\n\t\treturn\n\t\n\t#If the controll mode is not create new mode -> return\n\tif data.controlMode !=data.CONTROLMODE.new:\n\t\treturn\n\t#If no object selected yet -> return\n\tif data.selectedObject == null:\n\t\treturn\n\t\n\tvar newObj = data.selectedObject.instance()\n\t\n\t#Calculate the click position based on ev position\n\tdes = ev.global_pos + HUD.get_global_pos() - (get_viewport().get_rect().size/2)\n\t\n\tget_node(\"Field\").add_child(newObj)\n\t\n\t\n\tnewObj.set_pos(des)\n\t#Add AI to the object\n\tvar newAI = data.AIObject.instance()\n\tnewObj.add_child(newAI)\n\t#Add button to select object\n\tvar selectionBtn = load(\"res://Data/CommonScns/HUD/ObjectSelectionBtn.tscn\").instance()\n\tnewObj.add_child(selectionBtn)\n\t\n\tprint(\"Mouse Click/Unclick at: \",ev.pos)\n\t\n\tpass"
 
 [node name="Canvas" type="Sprite"]
 
 texture = ExtResource( 1 )
 script/script = SubResource( 1 )
+
+[node name="Field" type="Node2D" parent="."]
 
 [node name="HUD" parent="." instance=ExtResource( 2 )]
 
