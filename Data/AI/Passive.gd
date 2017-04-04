@@ -1,7 +1,12 @@
 extends Node
 
-#Default AI 
-#Behavior: moving random
+#Passive AI 
+#Passive:
+
+#Default: wanders randomly.
+
+#On touch: moves away from touch.
+
 
 var maxSpeedValue = 2
 
@@ -47,7 +52,7 @@ func moveToTarget(des, body):
 	
 	#Calculate distance
 	if tmp.length() <= speedValue || des ==null: #If des reached, back to wandering mode
-		
+		print("STOPPP")
 		state = 0
 		speedValue = 0
 		des = null
@@ -59,6 +64,11 @@ func moveToTarget(des, body):
 	body.set_global_pos( body.get_global_pos() + speedVector)
 	pass
 
+func moveAwayFromTarget(des, body):
+	
+	
+	pass
+
 func wanderRandomly(body):
 	#random change direction
 	tmp = rand_range(0, 999)
@@ -67,11 +77,11 @@ func wanderRandomly(body):
 	if  0 <tmp && tmp < 2:
 		#Change direction
 		speedDirection = speedDirection.rotated(rand_range(0, 314) /100)
-		
+		print("Directino change")
 	if 10 < tmp && tmp< 20 :
 		#Change speed
 		speedValue = maxSpeedValue
-		
+		print("Speed change")
 		
 	if 30< tmp && tmp <50 :
 		#Stop
