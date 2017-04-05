@@ -2,17 +2,16 @@
 
 [ext_resource path="res://Data/Textures/Objects/Circle.png" type="Texture" id=1]
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=1]
 
 custom_solver_bias = 0.0
 radius = 10.0
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=2]
 
-resource/name = "Object"
-script/source = "var name\nvar shape\nvar color\nvar AItype\n\nvar moveSpeed = 3\n\nvar moveVector = Vector2(0,0)\n\nvar targetList = []\n\nvar objCode = 0\n\nvar data\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\t\n\tAItype = load(data.AITYPE.circle).new()\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process():\n\t\n\tpass\n\nfunc update():\n\t\n\tAItype.updateBehavior(self)\n\t\n\tpass\n\n\nfunc _on_Area2D_body_enter( body ):\n\t\n\tif body == self:\n\t\treturn\n\t\n\tif \"objCode\" in body:\n\t\t\n\t\tprint(\"FOUND IT\")\n\t\n\tpass # replace with function body\n"
+script/source = "var name\nvar shape\nvar color\nvar AItype\n\nvar moveSpeed = 3\n\nvar moveVector = Vector2(0,0)\n\nvar targetList = []\n\nvar objCode = 0\n\nvar data\n\nvar stat\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\t\n\tstat = load(\"res://Data/CommonScns/stat.gd\").new()\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process():\n\t\n\tpass\n\nfunc update():\n\t\n\tAItype.updateBehavior(self)\n\t\n\tpass\n\n\nfunc _on_Area2D_body_enter( body ):\n\t\n\tif body == self:\n\t\treturn\n\t\n\tif \"objCode\" in body:\n\t\t\n\t\tprint(\"FOUND IT\")\n\t\n\tpass # replace with function body\n"
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 
 custom_solver_bias = 0.0
 radius = 10.0
@@ -20,7 +19,7 @@ radius = 10.0
 [node name="Object" type="RigidBody2D"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 3 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 4.64775, 0, 0, 4.64775, -5.21225, -0.906581 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -40,7 +39,7 @@ velocity/linear = Vector2( 0, 0 )
 velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
-script/script = SubResource( 1 )
+script/script = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -49,7 +48,7 @@ texture = ExtResource( 1 )
 [node name="Area2D" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 2 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 15.3894, 0, 0, 14.4274, 1.00009, 5.38725 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -61,7 +60,7 @@ angular_damp = 1.0
 
 transform/pos = Vector2( 1.00009, 5.38725 )
 transform/scale = Vector2( 15.3894, 14.4274 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
@@ -69,7 +68,7 @@ _update_shape_index = 0
 
 transform/pos = Vector2( -5.21225, -0.906581 )
 transform/scale = Vector2( 4.64775, 4.64775 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
