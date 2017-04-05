@@ -487,7 +487,7 @@ custom_fonts/font = ExtResource( 8 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "Apply Change"
+text = "Apply Changes"
 flat = false
 
 [connection signal="pressed" from="NewBtn" to="NewBtn" method="_on_NewBtn_pressed"]
