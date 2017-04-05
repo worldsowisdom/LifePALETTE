@@ -6,10 +6,11 @@
 [sub_resource type="GDScript" id=1]
 
 resource/name = "ObjSelectionBtn"
-script/source = "\n\nvar selected = false\nvar tmp\n\nfunc _ready():\n\t\n\tpass\n\nfunc setToCenter():\n\t\n\tpass\n\nfunc _on_ObjectSelectionBtn_pressed():\n\t\n#\tget_node(\"/root/Data\").selectedObject = get_node(\"..\")\n\t\n\tif selected:#If it is previouslly selected: de-selected it.\n\t\t#Find object from the selectedGroupObject\n\t\tfor i in range(0, get_node(\"/root/Data\").selectedGroupObject.size()):\n\t\t\tif get_node(\"/root/Data\").selectedGroupObject[i] == get_node(\"..\"):\n\t\t\t\ttmp = i\n\t\t#Remove the object found\n\t\tget_node(\"/root/Data\").selectedGroupObject.remove(tmp)\n\t\t\n\t\tselected = false\n\t\thighLightBtn(false)\n\t\t\n\telse:\n\t\tget_node(\"/root/Data\").selectedGroupObject.append( get_node(\"..\"))\n\t\tselected = true\n\t\thighLightBtn(true)\n\t\tpass\n\t\n\t\n\tpass # replace with function body\n\nfunc highLightBtn(highLight):\n\t \n\t\n\tif highLight :\n\t\tget_node(\"Mark\").show()\n\telse:\n\t\tget_node(\"Mark\").hide()\n\t\tpass\n\t\n\tpass"
+script/source = "\n\nvar selected = false\nvar tmp\n\nfunc _ready():\n\t\n\tpass\n\nfunc setToCenter():\n\t\n\tpass\n\nfunc _on_ObjectSelectionBtn_pressed():\n\t\n#\tget_node(\"/root/Data\").selectedObject = get_node(\"..\")\n\t\n\tif selected:#If it is previouslly selected: de-selected it.\n\t\t#Set the selected obj null\n#\t\tget_node(\"/root/Data\").selectedObject = null\n\t\t#Find object from the selectedGroupObject\n\t\tfor i in range(0, get_node(\"/root/Data\").selectedGroupObject.size()):\n\t\t\tif get_node(\"/root/Data\").selectedGroupObject[i] == get_node(\"..\"):\n\t\t\t\ttmp = i\n\t\t#Remove the object found\n\t\tget_node(\"/root/Data\").selectedGroupObject.remove(tmp)\n\t\t\n\t\tselected = false\n\t\thighLightBtn(false)\n\t\t\n\telse:\n\t\t\n#\t\tget_node(\"/root/Data\").selectedObject = get_node(\"..\")\n\t\t\n\t\tget_node(\"/root/Data\").selectedGroupObject.append( get_node(\"..\"))\n\t\tselected = true\n\t\thighLightBtn(true)\n\t\tpass\n\t\n\t\n\tpass # replace with function body\n\nfunc highLightBtn(highLight):\n\t \n\t\n\tif highLight :\n\t\tget_node(\"Mark\").show()\n\telse:\n\t\tget_node(\"Mark\").hide()\n\t\tpass\n\t\n\tpass"
 
 [node name="ObjectSelectionBtn" type="TextureButton"]
 
+visibility/blend_mode = 3
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
