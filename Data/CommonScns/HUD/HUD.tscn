@@ -1,44 +1,54 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=18 format=1]
 
 [ext_resource path="res://Data/Textures/HUD/NewBtn.png" type="Texture" id=1]
 [ext_resource path="res://Data/Font/Rujishanwriting35.fnt" type="BitmapFont" id=2]
 [ext_resource path="res://Data/Textures/HUD/RemoveBtn.png" type="Texture" id=3]
-[ext_resource path="res://Data/Textures/HUD/EditBtn.png" type="Texture" id=4]
-[ext_resource path="res://Data/Textures/HUD/InspectBtn.png" type="Texture" id=5]
+[ext_resource path="res://Data/Textures/HUD/ComfirmRemoveBtn.png" type="Texture" id=4]
+[ext_resource path="res://Data/Textures/HUD/EditBtn.png" type="Texture" id=5]
+[ext_resource path="res://Data/Textures/HUD/InspectBtn.png" type="Texture" id=6]
+[ext_resource path="res://Data/Textures/HUD/StatFrame.png" type="Texture" id=7]
+[ext_resource path="res://Data/Font/EuroFurence30.fnt" type="BitmapFont" id=8]
 
 [sub_resource type="GDScript" id=1]
 
 resource/name = "HUD"
-script/source = "\nvar data\n\n\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\t\n\t\n\tupdate()\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\t#Check ObjectPanel condition\n\tif data.controlMode == data.CONTROLMODE.new:\n\t\tget_node(\"ObjectPanel\").show()\n\telse:\n\t\tget_node(\"ObjectPanel\").hide()\n\t\n\t\n\tpass\n\nfunc update():\n\tupdateObjectPanel()\n\tpass\n\nfunc updateObjectPanel():\n\t\n\tget_node(\"ObjectPanel\").update()\n\t\n\tpass"
+script/source = "\nvar data\n\n\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\t\n\t#Regist this to data\n\tdata.activeCamera = self\n\t\n\tupdate()\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\t#Check ObjectPanel condition\n\tif data.controlMode == data.CONTROLMODE.new:\n\t\tget_node(\"ObjectPanel\").show()\n\telse:\n\t\tget_node(\"ObjectPanel\").hide()\n\t\n\t\n\tpass\n\nfunc update():\n\tupdateObjectPanel()\n\tpass\n\nfunc updateObjectPanel():\n\t\n\tget_node(\"ObjectPanel\").update()\n\t\n\tpass"
 
 [sub_resource type="GDScript" id=2]
 
 resource/name = "NewBtn"
-script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/NewBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/NewBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.new:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\nfunc _on_NewBtn_pressed():\n\t\n\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.new\n\t\n\tpass # replace with function body\n\n"
+script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/NewBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/NewBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.new:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\nfunc _on_NewBtn_pressed():\n\t\n\tif get_node(\"/root/Data\").controlMode != get_node(\"/root/Data\").CONTROLMODE.new:\n\t\t#If game mode is not current in new mode -> set it in new mode\n\t\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.new\n\telse:\n\t\t#If game mode is current in new mode -> set it in idle mode\n\t\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.idle\n\t\tpass\n\t\n\tpass # replace with function body\n\n"
 
 [sub_resource type="GDScript" id=3]
 
-script/source = "var data\n\nvar tmp = \"\"\n\nfunc _ready():\n\tdata = get_node(\"/root/Data\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\t\n\tif data.controlMode == data.CONTROLMODE.new:\n\t\ttmp = \"Create new\"\n\t\n\tif data.controlMode == data.CONTROLMODE.remove:\n\t\ttmp = \"Remove\"\n\t\n\tif data.controlMode == data.CONTROLMODE.edit:\n\t\ttmp = \"Edit\"\n\t\n\tif data.controlMode == data.CONTROLMODE.inspect:\n\t\ttmp = \"Inspect\"\n\t\n\tset_text(tmp)\n\tpass"
+script/source = "var data\n\nvar tmp = \"\"\n\nfunc _ready():\n\tdata = get_node(\"/root/Data\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\t\n\tif data.controlMode == data.CONTROLMODE.idle:\n\t\ttmp = \"Play mode\"\n\t\n\tif data.controlMode == data.CONTROLMODE.new:\n\t\ttmp = \"Create new\"\n\t\n\tif data.controlMode == data.CONTROLMODE.remove:\n\t\ttmp = \"Remove\"\n\t\n\tif data.controlMode == data.CONTROLMODE.edit:\n\t\ttmp = \"Edit\"\n\t\n\tif data.controlMode == data.CONTROLMODE.inspect:\n\t\ttmp = \"Inspect\"\n\t\n\tset_text(tmp)\n\tpass"
 
 [sub_resource type="GDScript" id=4]
 
 resource/name = "RemoveBtn"
-script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/RemoveBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/RemoveBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.remove:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\n\n\nfunc _on_RemoveBtn_pressed():\n\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.remove\n\t\n\tpass # replace with function body\n"
+script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/RemoveBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/RemoveBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.remove:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\n\n\nfunc _on_RemoveBtn_pressed():\n\tif get_node(\"/root/Data\").controlMode != get_node(\"/root/Data\").CONTROLMODE.remove:\n\t\t#If game mode is not current in remove mode -> set it in remove mode\n\t\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.remove\n\telse:\n\t\t#If game mode is current in remove mode -> set it in idle mode\n\t\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.idle\n\t\tpass\n\tpass # replace with function body\n"
 
 [sub_resource type="GDScript" id=5]
 
-resource/name = "EditBtn"
-script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/EditBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/EditBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.edit:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\n\n\nfunc _on_EditBtn_pressed():\n\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.edit\n\tpass # replace with function body\n"
+resource/name = "ConfirmedRemoveBtn"
+script/source = "\nvar data\n\nfunc _ready():\n\tdata = get_node(\"/root/Data\")\n\tset_fixed_process(true)\n\tpass\n\n\nfunc _fixed_process(delta):\n\t\n\tif data.controlMode == data.CONTROLMODE.remove:\n\t\tshow()\n\telse:\n\t\thide()\n\t\n\tpass\n\nfunc _on_ConfirmedRemoveBtn_pressed():\n\t\n\tfor i in data.selectedGroupObject:\n\t\ti.queue_free()\n\t\n\t#Clean up\n\tdata.selectedGroupObject = []\n\t\n\tpass # replace with function body\n"
 
 [sub_resource type="GDScript" id=6]
 
-resource/name = "InspectBtn"
-script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/InspectBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/InspectBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.inspect:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\n\nfunc _on_InspectBtn_pressed():\n\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.inspect\n\tpass # replace with function body\n"
+script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/EditBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/EditBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.edit:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\n\n\nfunc _on_EditBtn_pressed():\n\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.edit\n\tpass # replace with function body\n"
 
 [sub_resource type="GDScript" id=7]
 
-resource/name = "ObjectPanel"
-script/source = "\nvar data\n\nvar objBtn\n\nvar tmp\n\nfunc _ready():\n\tobjBtn = load(\"res://Data/CommonScns/HUD/ObjectBtn.tscn\")\n\tdata = get_node(\"/root/Data\")\n\t\n\tpass\n\nfunc update():\n\t\n\tfor i in data.objectsList:\n\t\tvar newObjBtn = objBtn.instance()\n\t\tget_node(\"VBoxContainer\").add_child(newObjBtn)\n\t\tnewObjBtn.loadObject(data.objectPath + i)\n\t\tnewObjBtn.btn.set_text(i)\n\t\t\n\t\tpass\n\t\n\t\n\tpass\n\n\n"
+script/source = "\nvar disabledTexture = \"\"\nvar activatedTexture = \"\"\n\nfunc _ready():\n\tdisabledTexture = load(\"res://Data/Textures/HUD/InspectBtn.png\")\n\tactivatedTexture = load(\"res://Data/Textures/HUD/InspectBtn1.png\")\n\t\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\tupdate()\n\tpass\n\nfunc update():\n\t\n\tif get_node(\"/root/Data\").controlMode == get_node(\"/root/Data\").CONTROLMODE.inspect:\n\t\tset_normal_texture(activatedTexture)\n\telse:\n\t\tset_normal_texture(disabledTexture)\n\t\n\tpass\n\n\nfunc _on_InspectBtn_pressed():\n\tif get_node(\"/root/Data\").controlMode != get_node(\"/root/Data\").CONTROLMODE.inspect:\n\t\t#If game mode is not current in new mode -> set it in new mode\n\t\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.inspect\n\telse:\n\t\t#If game mode is current in new mode -> set it in idle mode\n\t\tget_node(\"/root/Data\").controlMode = get_node(\"/root/Data\").CONTROLMODE.idle\n\t\tpass\n\t\n\tpass # replace with function body\n"
+
+[sub_resource type="GDScript" id=8]
+
+script/source = "\nvar data\n\nvar objBtn\n\nvar objBtnList = []\n\nvar tmp\n\nfunc _ready():\n\tobjBtn = load(\"res://Data/CommonScns/HUD/ObjectBtn.tscn\")\n\tdata = get_node(\"/root/Data\")\n\t\n\tpass\n\nfunc update():\n\t\n\tobjBtnList = []\n\t\n\tfor i in data.objectsList:\n\t\tvar newObjBtn = objBtn.instance()\n\t\tget_node(\"VBoxContainer\").add_child(newObjBtn)\n\t\tnewObjBtn.loadObject(data.objectPath + i)\n\t\tnewObjBtn.btn.set_text(i)\n\t\t\n\t\tobjBtnList.append(newObjBtn)\n\t\t\n\t\tpass\n\t\n\t\n\tpass\n\nfunc refreshHighLight():\n\t\n\t#Turn off all the button highlight\n\tfor i in objBtnList:\n\t\ti.highLightBtn(false)\n\t\tpass\n\t\n\tpass\n"
+
+[sub_resource type="GDScript" id=9]
+
+resource/name = "DisplayStat"
+script/source = "\nvar data\n\nvar obj\n\nvar tmp\nvar tmpStat\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\ttmpStat = load(\"res://Data/CommonScns/stat.gd\").new()\n\tdisplayStat(tmpStat)\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\t#Get the data.selectedGroupObject size\n\ttmp = data.selectedGroupObject.size()\n\ttmp = tmp -1\n\t\n\t#if there are no object, do nothing\n\tif tmp < 0:\n\t\treturn\n\t\n\t\n\t#Check if stat is exist in object\n\tobj = data.selectedGroupObject[tmp]\n#\tprint(str(\"stat\" in obj))\n\tif !(\"stat\" in obj):\n\t\treturn\n\t\n#\tprint(\"Obj have stat\")\n\t\n\t\n\t#If tmpStat is different with obj.stat, \n\tif checkStatChange(tmpStat, obj.stat):\n\t\tprint(\"stat changed\")\n\t\tdisplayStat(obj.stat)\n\t\ttmpStat.setStat(obj.stat)\n\t\n\t\n\tpass\n\nfunc applyStatChange():\n\tif obj == null:\n\t\treturn\n\t\n\tobj.stat.name = get_node(\"NameLb/TextEdit\").get_text()\n\t\n\t\n\tobj.stat.shape = get_node(\"ShapeLb/TextEdit\").get_text()\n\t\n\tobj.stat.color = get_node(\"ColorLb/TextEdit\").get_text()\n\t\n\tobj.stat.personality = get_node(\"BehaviorLb/TextEdit\").get_text()\n\t\n\tobj.stat.id = get_node(\"IDLb/TextEdit\").get_text()\n\t\n\tobj.stat.location = get_node(\"LocationLb/TextEdit\").get_text()\n\t\n\tobj.stat.age = get_node(\"AgeLb/TextEdit\").get_text()\n\t\n\tobj.stat.origin = get_node(\"OriginLb/TextEdit\").get_text()\n\t\n\tpass\n\nfunc displayStat(stat):\n\t\n\tget_node(\"NameLb/TextEdit\").set_text(str( stat.name))\n\t\n\t\n\tget_node(\"ShapeLb/TextEdit\").set_text(str( stat.shape))\n\t\n\tget_node(\"ColorLb/TextEdit\").set_text(str( stat.color))\n\t\n\tget_node(\"BehaviorLb/TextEdit\").set_text(str( stat.personality))\n\t\n\tget_node(\"IDLb/TextEdit\").set_text(str( stat.id))\n\t\n\tget_node(\"LocationLb/TextEdit\").set_text(str( stat.location))\n\t\n\tget_node(\"AgeLb/TextEdit\").set_text(str( stat.age))\n\t\n\tget_node(\"OriginLb/TextEdit\").set_text(str( stat.origin))\n\t\n\tpass\n\nfunc checkStatChange(stat, stat1):\n\tprint(\"Sahpe\" + str(stat.shape))\n\t#Check valid stat\n\tif stat == null || stat1 == null:\n\t\treturn true\n\t#\n\t\n\t\n\tif stat.name != stat1.name:\n\t\treturn true\n\t\n\tif stat.shape != stat1.shape:\n\t\treturn true\n\t\n\tif stat.color != stat1.color:\n\t\treturn true\n\t\n\tif stat.personality != stat1.personality:\n\t\treturn true\n\t\n\tif stat.id != stat1.id:\n\t\treturn true\n\t\n\tif stat.location != stat1.location:\n\t\treturn true\n\t\n\tif stat.age != stat1.age:\n\t\treturn true\n\t\n\tif stat.origin != stat1.origin:\n\t\treturn true\n\t\n\t\n\treturn false\n\nfunc _on_ApplyChange_pressed():\n\t#\n\tapplyStatChange()\n\tpass # replace with function body\n"
 
 [node name="HUD" type="Camera2D"]
 
@@ -109,8 +119,25 @@ shortcut = null
 textures/normal = ExtResource( 3 )
 script/script = SubResource( 4 )
 
+[node name="ConfirmedRemoveBtn" type="TextureButton" parent="RemoveBtn"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 3.0
+margin/top = -123.0
+margin/right = 103.0
+margin/bottom = -23.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 4 )
+script/script = SubResource( 5 )
+
 [node name="EditBtn" type="TextureButton" parent="."]
 
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -122,8 +149,8 @@ margin/bottom = 273.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 4 )
-script/script = SubResource( 5 )
+textures/normal = ExtResource( 5 )
+script/script = SubResource( 6 )
 
 [node name="InspectBtn" type="TextureButton" parent="."]
 
@@ -138,8 +165,8 @@ margin/bottom = 266.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 5 )
-script/script = SubResource( 6 )
+textures/normal = ExtResource( 6 )
+script/script = SubResource( 7 )
 
 [node name="ObjectPanel" type="ScrollContainer" parent="."]
 
@@ -153,7 +180,7 @@ margin/right = -265.0
 margin/bottom = 108.0
 scroll/horizontal = true
 scroll/vertical = true
-script/script = SubResource( 7 )
+script/script = SubResource( 8 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ObjectPanel"]
 
@@ -168,12 +195,311 @@ margin/bottom = 0.0
 custom_constants/separation = 50
 alignment = 0
 
+[node name="DisplayStat" type="Sprite" parent="."]
+
+transform/pos = Vector2( 364.592, -67.7539 )
+texture = ExtResource( 7 )
+script/script = SubResource( 9 )
+
+[node name="NameLb" type="Label" parent="DisplayStat"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -110.0
+margin/top = -151.0
+margin/right = -42.0
+margin/bottom = -124.0
+custom_fonts/font = ExtResource( 8 )
+text = "Name"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TextEdit" type="TextEdit" parent="DisplayStat/NameLb"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 106.0
+margin/top = 2.0
+margin/right = 226.0
+margin/bottom = 26.0
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="ShapeLb" type="Label" parent="DisplayStat"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -106.0
+margin/top = -111.0
+margin/right = -34.0
+margin/bottom = -84.0
+custom_fonts/font = ExtResource( 8 )
+text = "Shape"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TextEdit" type="TextEdit" parent="DisplayStat/ShapeLb"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 3.0
+margin/right = 222.0
+margin/bottom = 27.0
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="ColorLb" type="Label" parent="DisplayStat"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -98.0
+margin/top = -67.0
+margin/right = -29.0
+margin/bottom = -40.0
+custom_fonts/font = ExtResource( 8 )
+text = "Color"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TextEdit" type="TextEdit" parent="DisplayStat/ColorLb"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 96.0
+margin/top = 1.0
+margin/right = 215.0
+margin/bottom = 25.0
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="BehaviorLb" type="Label" parent="DisplayStat"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -116.0
+margin/top = -31.0
+margin/right = 1.0
+margin/bottom = -4.0
+custom_fonts/font = ExtResource( 8 )
+text = "Behavior "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TextEdit" type="TextEdit" parent="DisplayStat/BehaviorLb"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 115.0
+margin/top = 2.0
+margin/right = 234.0
+margin/bottom = 26.0
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="IDLb" type="Label" parent="DisplayStat"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -77.0
+margin/top = -190.0
+margin/right = -37.0
+margin/bottom = -163.0
+custom_fonts/font = ExtResource( 8 )
+text = "ID"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TextEdit" type="TextEdit" parent="DisplayStat/IDLb"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 75.0
+margin/top = 1.0
+margin/right = 194.0
+margin/bottom = 25.0
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="LocationLb" type="Label" parent="DisplayStat"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -116.0
+margin/top = 6.0
+margin/right = -6.0
+margin/bottom = 33.0
+custom_fonts/font = ExtResource( 8 )
+text = "Location"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TextEdit" type="TextEdit" parent="DisplayStat/LocationLb"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 110.0
+margin/top = 4.0
+margin/right = 232.0
+margin/bottom = 28.0
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="AgeLb" type="Label" parent="DisplayStat"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -81.0
+margin/top = 41.0
+margin/right = -33.0
+margin/bottom = 68.0
+custom_fonts/font = ExtResource( 8 )
+text = "Age"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TextEdit" type="TextEdit" parent="DisplayStat/AgeLb"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 75.0
+margin/top = 5.0
+margin/right = 197.0
+margin/bottom = 29.0
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="OriginLb" type="Label" parent="DisplayStat"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -96.0
+margin/top = 85.0
+margin/right = -22.0
+margin/bottom = 112.0
+custom_fonts/font = ExtResource( 8 )
+text = "Origin"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TextEdit" type="TextEdit" parent="DisplayStat/OriginLb"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 93.0
+margin/top = 2.0
+margin/right = 213.0
+margin/bottom = 26.0
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="ApplyChange" type="Button" parent="DisplayStat"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -87.0
+margin/top = 139.0
+margin/right = 98.0
+margin/bottom = 188.0
+custom_fonts/font = ExtResource( 8 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Apply Change"
+flat = false
+
 [connection signal="pressed" from="NewBtn" to="NewBtn" method="_on_NewBtn_pressed"]
 
 [connection signal="pressed" from="RemoveBtn" to="RemoveBtn" method="_on_RemoveBtn_pressed"]
 
+[connection signal="pressed" from="RemoveBtn/ConfirmedRemoveBtn" to="RemoveBtn/ConfirmedRemoveBtn" method="_on_ConfirmedRemoveBtn_pressed"]
+
 [connection signal="pressed" from="EditBtn" to="EditBtn" method="_on_EditBtn_pressed"]
 
 [connection signal="pressed" from="InspectBtn" to="InspectBtn" method="_on_InspectBtn_pressed"]
+
+[connection signal="pressed" from="DisplayStat/ApplyChange" to="DisplayStat" method="_on_ApplyChange_pressed"]
 
 

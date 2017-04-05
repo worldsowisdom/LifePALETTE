@@ -6,6 +6,7 @@ http://life.worldsowisdom.com/palette/
 Starting March 2017.
 
 LifePALETTE uses the Godot game engine.
+
 https://godotengine.org/
 
 ***************************************
@@ -13,4 +14,5 @@ https://godotengine.org/
 CONTACT:
 
 life@worldsowisdom.com
-life.worldsowisdom.com/palette
+
+http://life.worldsowisdom.com/palette/
