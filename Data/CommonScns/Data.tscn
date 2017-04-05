@@ -3,7 +3,7 @@
 [sub_resource type="GDScript" id=1]
 
 resource/name = "Data"
-script/source = "\nvar selectedObject\n\nvar controlMode = 3\nvar CONTROLMODE = {\n\tnew = 0,\n\tremove = 1,\n\tedit = 2,\n\tinspect = 3\n\n}\n\nvar objectPath = \"res://Data/Objects/\"\nvar objectsList = [\n]\n\nvar tmp\n\nfunc _ready():\n\t\n\tloadObject()\n\t\n\tpass\n\n# load all object file name in objectPath to objectList \nfunc loadObject():\n\tvar objectDir = Directory.new()\n\tobjectDir.open(objectPath)\n\tobjectDir.list_dir_begin()\n\t\n\t\n\twhile true:\n\t\tvar file = objectDir.get_next()\n\t\t\n\t\tif file == \"\":\n\t\t\tbreak\n\t\telif not file.begins_with(\".\"):\n\t\t\tobjectsList.append(file)\n\t\t\t\n\t\n\t\n\tpass"
+script/source = "\nvar selectedObject\nvar selectedGroupObject = []\n\nvar controlMode = 3\nvar CONTROLMODE = {\n\tnew = 0,\n\tremove = 1,\n\tedit = 2,\n\tinspect = 3\n\n}\n\nvar objectPath = \"res://Data/Objects/\"\nvar objectsList = [\n]\n\nvar AITYPE = {\n\tsquare = \"res://Data/AI/Circle.gd\",\n\tcircle = 1,\n\ttriangle = 2\n}\n\nvar tmp\n\nfunc _ready():\n\t\n\tloadObject()\n\t\n\tpass\n\n# load all object file name in objectPath to objectList \nfunc loadObject():\n\tvar objectDir = Directory.new()\n\tobjectDir.open(objectPath)\n\tobjectDir.list_dir_begin()\n\t\n\t\n\twhile true:\n\t\tvar file = objectDir.get_next()\n\t\t\n\t\tif file == \"\":\n\t\t\tbreak\n\t\telif not file.begins_with(\".\"):\n\t\t\tobjectsList.append(file)\n\t\t\t\n\t\n\t\n\tpass"
 
 [node name="Data" type="Node2D"]
 
