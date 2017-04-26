@@ -1,5 +1,5 @@
 # LifePALETTE
-LifePALETTE is a dynamic art program!
+LifePALETTE is a dynamic art garden!
 
 http://life.worldsowisdom.com/palette/
 
