@@ -22,7 +22,7 @@ LifePALETTE runs on Windows, Mac, and Linux. It also can compile for Android, HT
 
 To develop the software, download the project source and Godot Engine. Open the project in Godot and you should be good to go. Simple!
 
-Please let us know of any questions, suggestions, or comments. We welcome your contributions, of code or art or documentatino or whatever suits your fancy, and we are happy to help you learn the program.
+Please let us know of any questions, suggestions, or comments. We welcome your contributions, of code or art or documentation or whatever suits your fancy, and we are happy to help you learn the program.
 
 To contribute, send a pull request here at GitHub, or send an e-mail.
 
