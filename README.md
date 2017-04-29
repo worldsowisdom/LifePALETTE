@@ -1,6 +1,8 @@
 # LifePALETTE
 LifePALETTE is a dynamic art garden!
 
+While you create moving objects, these masterpieces also create art with YOU!
+
 http://life.worldsowisdom.com/palette/
 
 Starting March 2017.
