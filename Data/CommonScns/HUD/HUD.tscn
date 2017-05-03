@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=1]
+[gd_scene load_steps=20 format=1]
 
 [ext_resource path="res://Data/Textures/HUD/NewBtn.png" type="Texture" id=1]
 [ext_resource path="res://Data/Font/Rujishanwriting35.fnt" type="BitmapFont" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Data/Textures/HUD/InspectBtn.png" type="Texture" id=6]
 [ext_resource path="res://Data/Textures/HUD/StatFrame.png" type="Texture" id=7]
 [ext_resource path="res://Data/Font/EuroFurence30.fnt" type="BitmapFont" id=8]
+[ext_resource path="res://Data/Font/RujisHanwritting40.fnt" type="BitmapFont" id=9]
 
 [sub_resource type="GDScript" id=1]
 
@@ -49,6 +50,11 @@ script/source = "\nvar data\n\nvar objBtn\n\nvar objBtnList = []\n\nvar tmp\n\nf
 
 resource/name = "DisplayStat"
 script/source = "\nvar data\n\nvar obj\n\nvar tmp\nvar tmpStat\n\nfunc _ready():\n\t\n\tdata = get_node(\"/root/Data\")\n\ttmpStat = load(\"res://Data/CommonScns/stat.gd\").new()\n\tdisplayStat(tmpStat)\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\t#Get the data.selectedGroupObject size\n\ttmp = data.selectedGroupObject.size()\n\ttmp = tmp -1\n\t\n\t#if there are no object, do nothing\n\tif tmp < 0:\n\t\treturn\n\t\n\t\n\t#Check if stat is exist in object\n\tobj = data.selectedGroupObject[tmp]\n#\tprint(str(\"stat\" in obj))\n\tif !(\"stat\" in obj):\n\t\treturn\n\t\n#\tprint(\"Obj have stat\")\n\t\n\t\n\t#If tmpStat is different with obj.stat, \n\tif checkStatChange(tmpStat, obj.stat):\n\t\tprint(\"stat changed\")\n\t\tdisplayStat(obj.stat)\n\t\ttmpStat.setStat(obj.stat)\n\t\n\t\n\tpass\n\nfunc applyStatChange():\n\tif obj == null:\n\t\treturn\n\t\n\tobj.stat.name = get_node(\"NameLb/TextEdit\").get_text()\n\t\n\t\n\tobj.stat.shape = get_node(\"ShapeLb/TextEdit\").get_text()\n\t\n\tobj.stat.color = get_node(\"ColorLb/TextEdit\").get_text()\n\t\n\tobj.stat.personality = get_node(\"BehaviorLb/TextEdit\").get_text()\n\t\n\tobj.stat.id = get_node(\"IDLb/TextEdit\").get_text()\n\t\n\tobj.stat.location = get_node(\"LocationLb/TextEdit\").get_text()\n\t\n\tobj.stat.age = get_node(\"AgeLb/TextEdit\").get_text()\n\t\n\tobj.stat.origin = get_node(\"OriginLb/TextEdit\").get_text()\n\t\n\tpass\n\nfunc displayStat(stat):\n\t\n\tget_node(\"NameLb/TextEdit\").set_text(str( stat.name))\n\t\n\t\n\tget_node(\"ShapeLb/TextEdit\").set_text(str( stat.shape))\n\t\n\tget_node(\"ColorLb/TextEdit\").set_text(str( stat.color))\n\t\n\tget_node(\"BehaviorLb/TextEdit\").set_text(str( stat.personality))\n\t\n\tget_node(\"IDLb/TextEdit\").set_text(str( stat.id))\n\t\n\tget_node(\"LocationLb/TextEdit\").set_text(str( stat.location))\n\t\n\tget_node(\"AgeLb/TextEdit\").set_text(str( stat.age))\n\t\n\tget_node(\"OriginLb/TextEdit\").set_text(str( stat.origin))\n\t\n\tpass\n\nfunc checkStatChange(stat, stat1):\n\tprint(\"Sahpe\" + str(stat.shape))\n\t#Check valid stat\n\tif stat == null || stat1 == null:\n\t\treturn true\n\t#\n\t\n\t\n\tif stat.name != stat1.name:\n\t\treturn true\n\t\n\tif stat.shape != stat1.shape:\n\t\treturn true\n\t\n\tif stat.color != stat1.color:\n\t\treturn true\n\t\n\tif stat.personality != stat1.personality:\n\t\treturn true\n\t\n\tif stat.id != stat1.id:\n\t\treturn true\n\t\n\tif stat.location != stat1.location:\n\t\treturn true\n\t\n\tif stat.age != stat1.age:\n\t\treturn true\n\t\n\tif stat.origin != stat1.origin:\n\t\treturn true\n\t\n\t\n\treturn false\n\nfunc _on_ApplyChange_pressed():\n\t#\n\tapplyStatChange()\n\tpass # replace with function body\n"
+
+[sub_resource type="GDScript" id=10]
+
+resource/name = "TimeElapse"
+script/source = "var time_start = 0\nvar time_now = 0\n\nfunc _ready():\n\ttime_start = OS.get_unix_time()\n\tset_process(true)\n\tpass\n\nfunc _process(delta):\n\ttime_now = OS.get_unix_time()\n\tvar elapsed = time_now - time_start\n\tvar minutes = elapsed / 60\n\tvar seconds = elapsed % 60\n\tvar str_elapsed = \"%02d : %02d\" % [minutes, seconds]\n\t#Set text\n\tset_text(str_elapsed)\n\t\n#\tprint(\"elapsed : \", str_elapsed)\n"
 
 [node name="HUD" type="Camera2D"]
 
@@ -105,14 +111,15 @@ script/script = SubResource( 3 )
 
 [node name="RemoveBtn" type="TextureButton" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -271.0
-margin/top = 172.0
-margin/right = -171.0
-margin/bottom = 272.0
+margin/left = -157.0
+margin/top = 170.0
+margin/right = -57.0
+margin/bottom = 270.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -142,10 +149,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -138.0
-margin/top = 173.0
-margin/right = -38.0
-margin/bottom = 273.0
+margin/left = -116.0
+margin/top = 328.0
+margin/right = -16.0
+margin/bottom = 428.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -158,10 +165,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 166.0
-margin/top = 166.0
-margin/right = 266.0
-margin/bottom = 266.0
+margin/left = 169.0
+margin/top = 171.0
+margin/right = 269.0
+margin/bottom = 271.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -170,14 +177,15 @@ script/script = SubResource( 7 )
 
 [node name="ObjectPanel" type="ScrollContainer" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = -505.0
-margin/top = -292.0
+margin/top = -231.0
 margin/right = -265.0
-margin/bottom = 108.0
+margin/bottom = 169.0
 scroll/horizontal = true
 scroll/vertical = true
 script/script = SubResource( 8 )
@@ -197,6 +205,7 @@ alignment = 0
 
 [node name="DisplayStat" type="Sprite" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 364.592, -67.7539 )
 texture = ExtResource( 7 )
 script/script = SubResource( 9 )
@@ -489,6 +498,30 @@ enabled_focus_mode = 2
 shortcut = null
 text = "Apply Change"
 flat = false
+
+[node name="TimeElapseLb" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -493.0
+margin/top = -282.0
+margin/right = -330.0
+margin/bottom = -239.0
+custom_fonts/font = ExtResource( 9 )
+text = "00:00"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script/script = SubResource( 10 )
+
+[node name="Timer" type="Timer" parent="TimeElapseLb"]
+
+process_mode = 0
+wait_time = 1.0
+one_shot = false
+autostart = false
 
 [connection signal="pressed" from="NewBtn" to="NewBtn" method="_on_NewBtn_pressed"]
 

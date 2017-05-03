@@ -9,7 +9,7 @@ radius = 10.0
 
 [sub_resource type="GDScript" id=2]
 
-script/source = "var name\nvar shape\nvar color\nvar AItype\n\nvar targetList = []\n\nvar objCode = 0\n\nvar stat\n\nfunc _ready():\n\t\n\tstat = load(\"res://Data/CommonScns/stat.gd\").new()\n\t\n\tstat.shape = \"Cirlcle\"\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process():\n\t\n\tpass\n\nfunc update():\n\t\n\tpass\n\nfunc _on_Area2D_body_enter( body ):\n\t\n\tif body == self:\n\t\treturn\n\t\n\tif \"AItype\" in body:\n\t\t\n\t\tprint(\"FOUND IT\")\n\t\n\tpass # replace with function body\n"
+script/source = "var name\nvar shape\nvar color\nvar AItype\n\nvar targetList = []\n\nvar objCode = 0\n\nvar stat\n\n#Additional properties\n\n\nfunc _ready():\n\t\n\tstat = load(\"res://Data/CommonScns/stat.gd\").new()\n\t\n\tstat.shape = \"Cirlcle\"\n\tset_fixed_process(true)\n\tpass\n\nfunc _fixed_process(delta):\n\t\n\t#IF shake is true -> shake the object\n\tprint( \"shake: \" + str(get_node(\"Timer\").get_time_left()))\n\tif get_node(\"Timer\").get_time_left() > 0 :\n\t\ttranslate(Vector2( rand_range(-1.0, 1.0) * 5, rand_range(-1.0, 1.0) * 5))\n\t\t\n\tpass\n\nfunc update():\n\t\n\tpass\n\nfunc activate():# trigger when player tap on this object when in play mode\n\tprint(\"Shake\")\n\tget_node(\"Timer\").start()\n\t\n\tpass\n\nfunc _on_Area2D_body_enter( body ):\n\t\n\tif body == self:\n\t\treturn\n\t\n\tif \"AItype\" in body:\n\t\t\n\t\tprint(\"FOUND IT\")\n\t\n\tpass # replace with function body\n"
 
 [sub_resource type="CircleShape2D" id=3]
 
@@ -71,6 +71,13 @@ transform/scale = Vector2( 4.64775, 4.64775 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[node name="Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
 
 [connection signal="body_enter" from="Area2D" to="." method="_on_Area2D_body_enter"]
 
